@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
+import CartPage from "./pages/CartPage";
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminProductsPage from "./pages/admin/AdminProductsPage";
+import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
+
+import { CartProvider } from "./context/CartContext";
+import { AdminAuthProvider, useAdminAuth } from "./context/AdminAuthContext";
+
+// Обёртка для защищённых админ‑маршрутов
+function RequireAdmin({ children }) {
+  const { token } = useAdminAuth();
+  if (!token) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return children;
 }
 
-export default App
+function App() {
+  return (
+    <CartProvider>
+      <AdminAuthProvider>
+        <Router>
+          <Routes>
+            {/* Клиентская часть */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/product/:id" element={<ProductDetailsPage />} />
+            <Route path="/cart" element={<CartPage />} />
+
+            {/* Админка */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route
+              path="/admin/products"
+              element={
+                <RequireAdmin>
+                  <AdminProductsPage />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <RequireAdmin>
+                  <AdminOrdersPage />
+                </RequireAdmin>
+              }
+            />
+
+            {/* 404 */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AdminAuthProvider>
+    </CartProvider>
+  );
+}
+
+export default App;

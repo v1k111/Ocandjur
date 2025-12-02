@@ -1,68 +1,195 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Фоны */
+  --color-bg-main: #050509;        /* общий фон страницы */
+  --color-bg-circle: #2c2b30;      /* тёмно-серый круг/карточки */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Золото */
+  --color-gold-light: #f9e29b;
+  --color-gold: #f5c96b;
+  --color-gold-deep: #d7a33b;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Градиент “огненного” кольца */
+  --color-ring-pink: #ff007a;
+  --color-ring-orange: #ff6a00;
+  --color-ring-yellow: #ffc300;
+
+  /* Текст */
+  --color-text-main: #f5e9c8;
+  --color-text-muted: #b8a27a;
+
+  /* Акценты */
+  --color-accent: #ff6a00;
+  --color-accent-hover: #ffc300;
+
+  --font-family: "Playfair Display", "Times New Roman", serif;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Сброс базовых отступов и основа */
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  font-family: var(--font-family);
+  line-height: 1.6;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  color: var(--color-accent);
+  text-decoration: none;
 }
+
+a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* Шапка и меню */
+
+header {
+  padding-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 1rem 0;
+}
+
+/* Лого в кольце */
+
+.logo-ring {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--color-ring-pink),
+    var(--color-ring-orange),
+    var(--color-ring-yellow),
+    var(--color-ring-pink)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-inner {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background-color: var(--color-bg-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  letter-spacing: 0.2rem;
+  color: var(--color-gold);
+}
+.logo-image {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Навигация */
+
+nav {
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+nav a {
+  margin: 0 1rem;
+  font-weight: 600;
+}
+
+/* Заголовки */
+
+h1, h2, h3 {
+  color: var(--color-gold-light);
+}
+
+/* Основной контент */
+
+main, section {
+  padding: 2rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Кнопки */
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-deep));
+  border: none;
+  padding: 0.5rem 1.4rem;
+  color: var(--color-bg-main);
+  border-radius: 999px;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  font-weight: 600;
+  letter-spacing: 0.05rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Список товаров и карточки */
+
+.product-list {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-card {
+  background-color: var(--color-bg-circle);
+  border-radius: 16px;
+  padding: 1.2rem;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+}
+
+.product-card h3 {
+  margin: 0.4rem 0;
+}
+
+.product-card p {
+  margin: 0.2rem 0 0.8rem;
+}
+
+/* Футер */
+
+footer {
+  background-color: #000000;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+footer p {
+  margin: 0.2rem 0;
+  color: var(--color-text-muted);
 }
